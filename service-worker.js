@@ -1,4 +1,4 @@
-var CACHE = "respiration-trace-v1";
+var CACHE = "respiration-trace-v2";
 var APP_SHELL = ["./", "./index.html", "./manifest.json", "./icon.svg", "./icon-maskable.svg"];
 
 self.addEventListener("install", function(event){
