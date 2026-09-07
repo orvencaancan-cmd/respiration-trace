@@ -1,0 +1,15 @@
+{
+  "name": "Respiration Trace",
+  "short_name": "Respiration",
+  "description": "A breathing pacer that traces box, 4-7-8, and coherent breathing patterns as a live respiratory waveform, with sound and custom timing.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#101A1D",
+  "theme_color": "#C9622F",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "icon-maskable.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ]
+}
