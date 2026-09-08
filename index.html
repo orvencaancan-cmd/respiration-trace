@@ -389,33 +389,25 @@
     font-variant-numeric:tabular-nums;
   }
 
-  .note-toggle{
-    appearance:none;
-    border:none;
-    background:none;
-    padding:0;
+  .best-for{
     display:flex;
-    align-items:center;
-    gap:6px;
+    align-items:baseline;
+    flex-wrap:wrap;
+    column-gap:7px;
+    row-gap:2px;
     font-family:"IBM Plex Sans", sans-serif;
-    font-size:0.8rem;
-    font-weight:600;
-    color:var(--text-muted);
-    cursor:pointer;
-    width:fit-content;
+    font-size:0.85rem;
+    line-height:1.4;
   }
-  .note-toggle:hover{ color:var(--accent); }
-  .note-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
-  .note-toggle .chev{ width:11px; height:11px; transition:transform 0.15s ease; }
-  .note-toggle[aria-expanded="true"] .chev{ transform:rotate(180deg); }
-  .note{
-    font-size:0.9rem;
-    line-height:1.6;
-    color:var(--text-muted);
-    max-width:62ch;
-    margin-top:8px;
+  .best-for-label{
+    font-size:0.68rem;
+    font-weight:700;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    color:var(--accent);
+    flex-shrink:0;
   }
-  .note b{ color:var(--text); font-weight:600; }
+  .best-for-text{ color:var(--text-muted); }
 
   @media (prefers-reduced-motion: reduce){
     .tab, button.primary, button.ghost{ transition:none; }
@@ -428,27 +420,27 @@
   @media (max-width:480px){
     .page{ padding:10px 14px 12px; gap:9px; }
     .eyebrow{ font-size:10px; }
-    h1{ font-size:1.4rem; }
+    h1{ font-size:1.5rem; }
     .ratio-badge{ font-size:0.85rem; padding:4px 11px; }
     header{ gap:5px; }
     .headline-row{ gap:10px; }
-    .tab{ padding:7px 14px; font-size:0.85rem; }
+    .tab{ padding:7px 13px; font-size:0.86rem; }
     .session-row{ margin-top:-2px; }
     .custom-row{ gap:5px; }
     .custom-field{ padding:6px 9px; }
     .custom-field label{ font-size:9px; }
     .custom-field input{ font-size:0.95rem; }
-    .console{ padding:9px 14px; gap:7px; }
+    .console{ padding:10px 14px; gap:6px; }
     .readout{ gap:8px; }
-    .phase-name{ font-size:1.2rem; }
-    .countdown{ font-size:2.1rem; }
-    .session-remaining{ font-size:1rem; }
+    .phase-name{ font-size:1.4rem; }
+    .countdown{ font-size:2.6rem; }
+    .session-remaining{ font-size:1.1rem; }
     .cycle-count{ font-size:0.68rem; }
     .controls{ gap:8px; }
-    button.primary, button.ghost{ padding:7px 15px; font-size:0.8rem; }
+    button.primary, button.ghost{ padding:8px 16px; font-size:0.85rem; }
     .sound-hint{ display:none; }
-    .note-toggle{ font-size:0.75rem; }
-    .note{ font-size:0.8rem; line-height:1.45; margin-top:6px; }
+    .best-for{ font-size:0.78rem; }
+    .best-for-label{ font-size:0.64rem; }
   }
 </style>
 </head>
@@ -511,17 +503,22 @@
 
   <section class="console">
     <div class="trace-wrap">
-      <svg id="trace" viewBox="0 0 640 210" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Respiration waveform for the current pattern">
-        <line class="grid-line" x1="30" y1="40" x2="610" y2="40"></line>
-        <line class="grid-line" x1="30" y1="150" x2="610" y2="150"></line>
+      <svg id="trace" viewBox="0 0 640 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Respiration waveform for the current pattern">
+        <line class="grid-line" x1="30" y1="20" x2="610" y2="20"></line>
+        <line class="grid-line" x1="30" y1="90" x2="610" y2="90"></line>
         <path class="base-path" id="basePath" d=""></path>
-        <clipPath id="revealClip"><rect id="revealRect" x="30" y="0" width="0" height="210"></rect></clipPath>
+        <clipPath id="revealClip"><rect id="revealRect" x="30" y="0" width="0" height="140"></rect></clipPath>
         <path class="fill-path" id="fillPath" d="" clip-path="url(#revealClip)"></path>
-        <line class="now-line" id="nowLine" x1="30" y1="30" x2="30" y2="160"></line>
+        <line class="now-line" id="nowLine" x1="30" y1="10" x2="30" y2="100"></line>
         <g id="ticks"></g>
-        <circle class="pulse-ring" id="pulseRing" r="5.5" cx="30" cy="150"></circle>
-        <circle class="playhead" id="playhead" r="5.5" cx="30" cy="150"></circle>
+        <circle class="pulse-ring" id="pulseRing" r="5.5" cx="30" cy="90"></circle>
+        <circle class="playhead" id="playhead" r="5.5" cx="30" cy="90"></circle>
       </svg>
+    </div>
+
+    <div class="best-for">
+      <span class="best-for-label">Best for</span>
+      <span class="best-for-text" id="bestFor">staying calm under pressure</span>
     </div>
 
     <div class="readout">
@@ -543,12 +540,6 @@
       <span class="sound-hint">tone tracks your breath · soft tick marks each second</span>
     </div>
   </section>
-
-  <button class="note-toggle" id="noteToggle" type="button" aria-expanded="false" aria-controls="note">
-    <span>Why this pattern</span>
-    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
-  </button>
-  <p class="note" id="note" hidden></p>
 </div>
 
 <script>
@@ -558,32 +549,32 @@
       label: "Box Breathing",
       ratio: "4·4·4·4",
       phases: [["Inhale",4],["Hold",4],["Exhale",4],["Hold",4]],
-      note: "<b>Box breathing</b> is what Navy SEALs and combat pilots use to stay level under stress: four equal counts of inhale, hold, exhale, hold. The two holds are the point — they slow you down more than any amount of deep breathing alone."
+      bestFor: "staying calm under pressure"
     },
     "478": {
       label: "4-7-8 Breathing",
       ratio: "4·7·8",
       phases: [["Inhale",4],["Hold",7],["Exhale",8]],
-      note: "<b>4-7-8</b> comes from Dr. Andrew Weil's adaptation of pranayama. The exhale is twice the inhale, which is what drives the calming effect — it's the pattern most people reach for to fall asleep or ride out a spike of anxiety."
+      bestFor: "falling asleep or calming anxiety"
     },
     coherent: {
       label: "Coherent Breathing",
       ratio: "5·5",
       phases: [["Inhale",5],["Exhale",5]],
-      note: "<b>Coherent breathing</b> paces you at about 5.5 breaths a minute — close to the body's resonance frequency, where heart-rate variability peaks. No holds, just a steady in-and-out. Best for sustained focus rather than winding down."
+      bestFor: "sustained focus"
     },
     custom: {
       label: "Custom Pattern",
       ratio: "",
       phases: [["Inhale",4],["Hold",4],["Exhale",4],["Hold",4]],
-      note: "<b>Custom</b> — set your own inhale, hold, exhale and hold durations above. Leave a hold at 0 to skip it."
+      bestFor: "your own rhythm"
     }
   };
 
   var els = {
     headline: document.getElementById("headline"),
     ratioBadge: document.getElementById("ratioBadge"),
-    note: document.getElementById("note"),
+    bestFor: document.getElementById("bestFor"),
     customRow: document.getElementById("customRow"),
     tabs: Array.prototype.slice.call(document.querySelectorAll(".tab")),
     basePath: document.getElementById("basePath"),
@@ -607,8 +598,7 @@
     inHold2: document.getElementById("inHold2"),
     themeToggle: document.getElementById("themeToggle"),
     iconSun: document.querySelector(".icon-sun"),
-    iconMoon: document.querySelector(".icon-moon"),
-    noteToggle: document.getElementById("noteToggle")
+    iconMoon: document.querySelector(".icon-moon")
   };
 
   function phaseClass(name){
@@ -617,7 +607,7 @@
     return "";
   }
 
-  var X0 = 30, X1 = 610, YTOP = 40, YBOTTOM = 150;
+  var X0 = 30, X1 = 610, YTOP = 20, YBOTTOM = 90;
 
   var state = {
     patternKey: "box",
@@ -986,9 +976,7 @@
     } else {
       els.ratioBadge.textContent = meta.ratio;
     }
-    els.note.innerHTML = meta.note;
-    els.note.hidden = true;
-    els.noteToggle.setAttribute("aria-expanded", "false");
+    els.bestFor.textContent = meta.bestFor;
     drawStatic();
     reset();
     savePrefs();
@@ -1030,12 +1018,6 @@
       else { setDroneVolume(0, 0.15); }
     }
     savePrefs();
-  });
-
-  els.noteToggle.addEventListener("click", function(){
-    var expanded = els.noteToggle.getAttribute("aria-expanded") === "true";
-    els.noteToggle.setAttribute("aria-expanded", expanded ? "false" : "true");
-    els.note.hidden = expanded;
   });
 
   // ---- theme toggle ----
