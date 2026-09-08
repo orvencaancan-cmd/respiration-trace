@@ -223,40 +223,50 @@
 
   /* ---------- custom inputs ---------- */
   .custom-row{
-    display:grid;
-    grid-template-columns:repeat(4, minmax(0,1fr));
-    gap:10px;
+    display:flex;
+    border-top:1px solid var(--border);
+    border-bottom:1px solid var(--border);
+    padding:10px 0;
   }
   .custom-field{
     display:flex;
     flex-direction:column;
-    gap:6px;
-    background:var(--surface);
-    border:1px solid var(--border);
-    border-radius:12px;
-    padding:10px 12px;
+    align-items:center;
+    gap:3px;
+    flex:1;
+    position:relative;
+  }
+  .custom-field + .custom-field::before{
+    content:"";
+    position:absolute;
+    left:0;
+    top:4px;
+    bottom:4px;
+    width:1px;
+    background:var(--border);
   }
   .custom-field label{
-    font-size:10px;
+    font-size:9.5px;
     font-weight:600;
-    letter-spacing:0.08em;
+    letter-spacing:0.07em;
     text-transform:uppercase;
     color:var(--text-muted);
   }
   .custom-field input{
     font-family:"IBM Plex Mono", ui-monospace, monospace;
-    font-size:1.2rem;
+    font-size:1.15rem;
+    font-weight:600;
     font-variant-numeric:tabular-nums;
     color:var(--text);
     background:transparent;
     border:none;
-    width:100%;
+    width:3ch;
+    text-align:center;
     padding:0;
   }
-  .custom-field input:focus-visible{ outline:none; }
-  .custom-field:focus-within{ border-color:var(--accent); }
+  .custom-field input:focus-visible{ outline:none; color:var(--accent); }
   .custom-field input::-webkit-outer-spin-button,
-  .custom-field input::-webkit-inner-spin-button{ opacity:0.5; }
+  .custom-field input::-webkit-inner-spin-button{ opacity:0.4; }
 
   /* ---------- main console ---------- */
   .console{
@@ -409,10 +419,6 @@
     .tab, button.primary, button.ghost{ transition:none; }
   }
 
-  @media (max-width:420px){
-    .custom-row{ grid-template-columns:repeat(2, minmax(0,1fr)); }
-  }
-
   @media (max-width:480px){
     .page{ padding:10px 14px 12px; gap:9px; }
     .eyebrow{ font-size:10px; }
@@ -422,10 +428,9 @@
     .headline-row{ gap:10px; }
     .tab{ padding:7px 13px; font-size:0.86rem; }
     .session-row{ margin-top:-2px; }
-    .custom-row{ gap:5px; }
-    .custom-field{ padding:6px 9px; }
-    .custom-field label{ font-size:9px; }
-    .custom-field input{ font-size:0.95rem; }
+    .custom-row{ padding:8px 0; }
+    .custom-field label{ font-size:8.5px; }
+    .custom-field input{ font-size:1.05rem; }
     .console{ padding:10px 14px; gap:8px; }
     .countdown-section{ gap:6px; }
     .countdown-tile{ padding:12px 22px; border-radius:18px; }
@@ -480,19 +485,19 @@
 
   <div class="custom-row" id="customRow" hidden>
     <div class="custom-field">
-      <label for="inInhale">Inhale, sec</label>
+      <label for="inInhale">Inhale</label>
       <input type="number" id="inInhale" min="0" max="60" step="1" value="4">
     </div>
     <div class="custom-field">
-      <label for="inHold1">Hold, sec</label>
+      <label for="inHold1">Hold</label>
       <input type="number" id="inHold1" min="0" max="60" step="1" value="4">
     </div>
     <div class="custom-field">
-      <label for="inExhale">Exhale, sec</label>
+      <label for="inExhale">Exhale</label>
       <input type="number" id="inExhale" min="0" max="60" step="1" value="4">
     </div>
     <div class="custom-field">
-      <label for="inHold2">Hold, sec</label>
+      <label for="inHold2">Hold</label>
       <input type="number" id="inHold2" min="0" max="60" step="1" value="4">
     </div>
   </div>
