@@ -271,7 +271,6 @@
   }
   .trace-wrap{ width:100%; }
   svg#trace{ width:100%; height:auto; display:block; overflow:visible; }
-  .grid-line{ stroke:var(--border); stroke-width:1; stroke-dasharray:3 4; }
   .base-path{ fill:none; stroke:var(--border); stroke-width:1.5; }
   .fill-path{ fill:var(--accent-soft); opacity:0.9; }
   .now-line{ stroke:var(--accent); stroke-width:1; opacity:0.6; }
@@ -285,42 +284,28 @@
   @media (prefers-reduced-motion: reduce){
     .pulse-ring.active{ animation-duration:0.001s; }
   }
-  .phase-tick text{
-    font-family:"IBM Plex Sans", sans-serif;
-    font-size:9.5px;
-    font-weight:600;
-    letter-spacing:0.06em;
-    fill:var(--text-muted);
-  }
-  .phase-tick .dur{ font-family:"IBM Plex Mono", monospace; font-weight:400; fill:var(--text-muted); opacity:0.75; }
-  .tick-mark{ stroke:var(--border); stroke-width:1; }
-
-  .readout{
+  .countdown-section{
     display:flex;
+    flex-direction:column;
     align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:16px;
+    gap:10px;
   }
-  .phase-block{ display:flex; flex-direction:column; gap:2px; }
-  .phase-name{
-    font-family:"Newsreader", serif;
-    font-style:italic;
-    font-weight:600;
-    font-size:clamp(1.7rem,4.6vw,2.3rem);
-    color:var(--text);
+  .countdown-tile{
+    width:fit-content;
+    padding:18px 30px;
+    border:1.5px solid var(--border);
+    border-radius:22px;
+    background:var(--surface-alt);
   }
-  .phase-name.is-inhale{ color:var(--accent); }
-  .phase-name.is-exhale{ color:var(--accent-2); }
   .countdown{
-    display:inline-block;
+    display:block;
     font-family:"IBM Plex Mono", monospace;
     font-variant-numeric:tabular-nums;
-    font-weight:600;
-    font-size:clamp(3rem,11vw,4.6rem);
+    font-weight:700;
+    font-size:clamp(3rem,11vw,4.2rem);
     line-height:1;
-    color:var(--accent);
-    transform-origin:left center;
+    color:var(--text);
+    text-align:center;
   }
   .countdown.pulse{ animation:countdown-pulse 0.32s ease-out; }
   @keyframes countdown-pulse{
@@ -330,28 +315,39 @@
   @media (prefers-reduced-motion: reduce){
     .countdown.pulse{ animation-duration:0.001s; }
   }
-  .session-info{
+  .phase-name{
+    font-family:"Newsreader", serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:clamp(1.4rem,4vw,1.8rem);
+    color:var(--text);
+    text-align:center;
+  }
+  .phase-name.is-inhale{ color:var(--accent); }
+  .phase-name.is-exhale{ color:var(--accent-2); }
+  .time-left-row{
     display:flex;
     flex-direction:column;
-    align-items:flex-end;
-    gap:3px;
+    align-items:center;
+    gap:1px;
   }
-  .cycle-count{
-    font-family:"IBM Plex Mono", monospace;
-    font-variant-numeric:tabular-nums;
-    font-size:0.8rem;
+  .time-left-label{
+    font-size:0.7rem;
+    font-weight:600;
+    letter-spacing:0.09em;
+    text-transform:uppercase;
     color:var(--text-muted);
   }
   .session-remaining{
     font-family:"IBM Plex Mono", monospace;
     font-variant-numeric:tabular-nums;
-    font-size:clamp(1.3rem,3.4vw,1.7rem);
-    font-weight:600;
+    font-size:clamp(1.3rem,3.4vw,1.6rem);
+    font-weight:700;
     color:var(--accent);
-    line-height:1;
+    line-height:1.2;
   }
 
-  .controls{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; }
+  .controls{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:center; }
   button.primary, button.ghost{
     font-family:"IBM Plex Sans", sans-serif;
     font-size:0.9rem;
@@ -430,12 +426,12 @@
     .custom-field{ padding:6px 9px; }
     .custom-field label{ font-size:9px; }
     .custom-field input{ font-size:0.95rem; }
-    .console{ padding:10px 14px; gap:6px; }
-    .readout{ gap:8px; }
-    .phase-name{ font-size:1.4rem; }
-    .countdown{ font-size:2.6rem; }
-    .session-remaining{ font-size:1.1rem; }
-    .cycle-count{ font-size:0.68rem; }
+    .console{ padding:10px 14px; gap:8px; }
+    .countdown-section{ gap:6px; }
+    .countdown-tile{ padding:12px 22px; border-radius:18px; }
+    .phase-name{ font-size:1.15rem; }
+    .countdown{ font-size:2.5rem; }
+    .session-remaining{ font-size:1.05rem; }
     .controls{ gap:8px; }
     button.primary, button.ghost{ padding:8px 16px; font-size:0.85rem; }
     .sound-hint{ display:none; }
@@ -503,16 +499,13 @@
 
   <section class="console">
     <div class="trace-wrap">
-      <svg id="trace" viewBox="0 0 640 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Respiration waveform for the current pattern">
-        <line class="grid-line" x1="30" y1="20" x2="610" y2="20"></line>
-        <line class="grid-line" x1="30" y1="90" x2="610" y2="90"></line>
+      <svg id="trace" viewBox="0 0 640 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Respiration waveform for the current pattern">
         <path class="base-path" id="basePath" d=""></path>
-        <clipPath id="revealClip"><rect id="revealRect" x="30" y="0" width="0" height="140"></rect></clipPath>
+        <clipPath id="revealClip"><rect id="revealRect" x="30" y="0" width="0" height="110"></rect></clipPath>
         <path class="fill-path" id="fillPath" d="" clip-path="url(#revealClip)"></path>
-        <line class="now-line" id="nowLine" x1="30" y1="10" x2="30" y2="100"></line>
-        <g id="ticks"></g>
-        <circle class="pulse-ring" id="pulseRing" r="5.5" cx="30" cy="90"></circle>
-        <circle class="playhead" id="playhead" r="5.5" cx="30" cy="90"></circle>
+        <line class="now-line" id="nowLine" x1="30" y1="4" x2="30" y2="106"></line>
+        <circle class="pulse-ring" id="pulseRing" r="5.5" cx="30" cy="96"></circle>
+        <circle class="playhead" id="playhead" r="5.5" cx="30" cy="96"></circle>
       </svg>
     </div>
 
@@ -521,23 +514,21 @@
       <span class="best-for-text" id="bestFor">staying calm under pressure</span>
     </div>
 
-    <div class="readout">
-      <div class="phase-block">
-        <span class="phase-name" id="phaseName">Ready</span>
-        <span class="countdown" id="countdown">4</span>
-      </div>
-      <div class="session-info">
-        <span class="cycle-count" id="cycleCount">cycle 0</span>
-        <span class="session-remaining" id="sessionRemaining" hidden></span>
-      </div>
-    </div>
-
     <div class="controls">
       <button class="primary" id="startBtn">Start</button>
       <button class="ghost" id="resetBtn">Reset</button>
       <button class="ghost" id="soundBtn" aria-pressed="true">Sound on</button>
       <button class="ghost" id="installBtn" hidden>Install app</button>
       <span class="sound-hint">tone tracks your breath · soft tick marks each second</span>
+    </div>
+
+    <div class="countdown-section">
+      <div class="countdown-tile"><span class="countdown" id="countdown">4</span></div>
+      <span class="phase-name" id="phaseName">Ready</span>
+      <div class="time-left-row" id="timeLeftRow" hidden>
+        <span class="time-left-label">Time left</span>
+        <span class="session-remaining" id="sessionRemaining"></span>
+      </div>
     </div>
   </section>
 </div>
@@ -583,14 +574,13 @@
     nowLine: document.getElementById("nowLine"),
     playhead: document.getElementById("playhead"),
     pulseRing: document.getElementById("pulseRing"),
-    ticks: document.getElementById("ticks"),
     phaseName: document.getElementById("phaseName"),
     countdown: document.getElementById("countdown"),
-    cycleCount: document.getElementById("cycleCount"),
     startBtn: document.getElementById("startBtn"),
     resetBtn: document.getElementById("resetBtn"),
     soundBtn: document.getElementById("soundBtn"),
     sessionTabs: Array.prototype.slice.call(document.querySelectorAll(".tab-sm")),
+    timeLeftRow: document.getElementById("timeLeftRow"),
     sessionRemaining: document.getElementById("sessionRemaining"),
     inInhale: document.getElementById("inInhale"),
     inHold1: document.getElementById("inHold1"),
@@ -607,7 +597,7 @@
     return "";
   }
 
-  var X0 = 30, X1 = 610, YTOP = 20, YBOTTOM = 90;
+  var X0 = 30, X1 = 610, YTOP = 14, YBOTTOM = 96;
 
   var state = {
     patternKey: "box",
@@ -806,36 +796,6 @@
     var fillPts = state.points.slice();
     var closed = d + " L" + fillPts[fillPts.length-1].x.toFixed(2) + "," + YBOTTOM + " L" + fillPts[0].x.toFixed(2) + "," + YBOTTOM + " Z";
     els.fillPath.setAttribute("d", closed);
-
-    els.ticks.innerHTML = "";
-    for(var i=0;i<state.phases.length;i++){
-      var x0 = state.points[i].x, x1 = state.points[i+1].x;
-      var mid = (x0+x1)/2;
-      var ns = "http://www.w3.org/2000/svg";
-      var g = document.createElementNS(ns, "g");
-      g.setAttribute("class","phase-tick");
-
-      var tickEl = document.createElementNS(ns, "line");
-      tickEl.setAttribute("class","tick-mark");
-      tickEl.setAttribute("x1", x0); tickEl.setAttribute("x2", x0);
-      tickEl.setAttribute("y1", YBOTTOM+6); tickEl.setAttribute("y2", YBOTTOM+2);
-      g.appendChild(tickEl);
-
-      var label = document.createElementNS(ns, "text");
-      label.setAttribute("x", mid); label.setAttribute("y", YBOTTOM+20);
-      label.setAttribute("text-anchor","middle");
-      label.textContent = state.phases[i][0].toUpperCase();
-      g.appendChild(label);
-
-      var dur = document.createElementNS(ns, "text");
-      dur.setAttribute("class","dur");
-      dur.setAttribute("x", mid); dur.setAttribute("y", YBOTTOM+32);
-      dur.setAttribute("text-anchor","middle");
-      dur.textContent = state.phases[i][1] + "s";
-      g.appendChild(dur);
-
-      els.ticks.appendChild(g);
-    }
   }
 
   function posAtTime(t){
@@ -858,7 +818,6 @@
 
   function renderAt(elapsed){
     var t = elapsed % state.total;
-    var cycles = Math.floor(elapsed / state.total);
     var pos = posAtTime(t);
 
     els.playhead.setAttribute("cx", pos.x.toFixed(2));
@@ -873,11 +832,10 @@
     els.phaseName.textContent = phName;
     els.phaseName.className = "phase-name " + phaseClass(phName);
     els.countdown.textContent = pos.secondsLeft;
-    els.cycleCount.textContent = "cycle " + (cycles + 1);
 
     if(state.sessionMinutes > 0){
-      els.sessionRemaining.hidden = false;
-      els.sessionRemaining.textContent = formatTime(state.sessionMinutes*60 - elapsed) + " left";
+      els.timeLeftRow.hidden = false;
+      els.sessionRemaining.textContent = formatTime(state.sessionMinutes*60 - elapsed);
     }
 
     var level = (YBOTTOM - pos.y) / (YBOTTOM - YTOP);
@@ -894,12 +852,11 @@
     els.phaseName.textContent = state.phases[0][0];
     els.phaseName.className = "phase-name " + phaseClass(state.phases[0][0]);
     els.countdown.textContent = state.phases[0][1];
-    els.cycleCount.textContent = "cycle 0";
     if(state.sessionMinutes > 0){
-      els.sessionRemaining.hidden = false;
-      els.sessionRemaining.textContent = formatTime(state.sessionMinutes*60) + " left";
+      els.timeLeftRow.hidden = false;
+      els.sessionRemaining.textContent = formatTime(state.sessionMinutes*60);
     } else {
-      els.sessionRemaining.hidden = true;
+      els.timeLeftRow.hidden = true;
     }
   }
 
@@ -912,7 +869,7 @@
     els.phaseName.textContent = "Complete";
     els.phaseName.className = "phase-name";
     els.countdown.textContent = "–";
-    els.sessionRemaining.textContent = "0:00 left";
+    els.sessionRemaining.textContent = "0:00";
   }
 
   function tick(now){
