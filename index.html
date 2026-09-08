@@ -1098,7 +1098,10 @@
   var installBtn = document.getElementById("installBtn");
   var deferredPrompt = null;
   window.addEventListener("beforeinstallprompt", function(e){
-    e.preventDefault();
+    // Don't preventDefault: let the browser show its own automatic
+    // install banner (e.g. Chrome on Android). We still keep a
+    // reference so our own button works as a manual fallback,
+    // useful on desktop where there's no automatic banner.
     deferredPrompt = e;
     installBtn.hidden = false;
   });
