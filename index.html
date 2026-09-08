@@ -125,7 +125,11 @@
     width:fit-content;
     max-width:100%;
     overflow-x:auto;
+    scrollbar-width:none;
+    -webkit-mask-image:linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
+    mask-image:linear-gradient(to right, transparent, black 16px, black calc(100% - 16px), transparent);
   }
+  .tabs::-webkit-scrollbar{ display:none; }
   .tab{
     appearance:none;
     border:none;
@@ -168,7 +172,13 @@
     padding:3px;
     background:var(--surface-alt);
     border-radius:100px;
+    max-width:100%;
+    overflow-x:auto;
+    scrollbar-width:none;
+    -webkit-mask-image:linear-gradient(to right, transparent, black 12px, black calc(100% - 12px), transparent);
+    mask-image:linear-gradient(to right, transparent, black 12px, black calc(100% - 12px), transparent);
   }
+  .tabs-sm::-webkit-scrollbar{ display:none; }
   .tab-sm{
     appearance:none;
     border:none;
@@ -860,7 +870,11 @@
 
   function selectPattern(key){
     state.patternKey = key;
-    els.tabs.forEach(function(t){ t.setAttribute("aria-pressed", t.dataset.pattern === key ? "true" : "false"); });
+    els.tabs.forEach(function(t){
+      var active = t.dataset.pattern === key;
+      t.setAttribute("aria-pressed", active ? "true" : "false");
+      if(active) t.scrollIntoView({inline:"center", block:"nearest", behavior:"smooth"});
+    });
     els.customRow.hidden = key !== "custom";
     var meta = PATTERNS[key];
     els.headline.textContent = meta.label;
@@ -898,6 +912,7 @@
     btn.addEventListener("click", function(){
       state.sessionMinutes = Number(btn.dataset.session);
       els.sessionTabs.forEach(function(t){ t.setAttribute("aria-pressed", t === btn ? "true" : "false"); });
+      btn.scrollIntoView({inline:"center", block:"nearest", behavior:"smooth"});
       reset();
       savePrefs();
     });
