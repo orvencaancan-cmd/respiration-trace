@@ -5,51 +5,57 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Respiration Trace</title>
 <meta name="description" content="A breathing pacer that traces box, 4-7-8, and coherent breathing patterns as a live respiratory waveform.">
-<meta name="theme-color" content="#C9622F">
+<meta name="theme-color" content="#1B6E8C">
 <link rel="manifest" href="manifest.json">
 <link rel="icon" href="icon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,500;0,600;1,400;1,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <style>
   :root{
-    --bg:#E9EEF0;
+    --bg:#EAF2F1;
     --surface:#FFFFFF;
-    --surface-alt:#DCE7E7;
-    --border:#C7D6D6;
-    --text:#16262A;
-    --text-muted:#55696C;
-    --accent:#C9622F;
-    --accent-strong:#A94E22;
-    --accent-soft:#F2DCC7;
+    --surface-alt:#DCEAE8;
+    --border:#C3D9D6;
+    --text:#12262A;
+    --text-muted:#55726F;
+    --accent:#1B6E8C;
+    --accent-strong:#145469;
+    --accent-soft:#D3E7ED;
     --accent-contrast:#FFFFFF;
-    --shadow: 0 1px 2px rgba(22,38,42,0.06), 0 8px 24px rgba(22,38,42,0.08);
+    --accent-2:#3F8F5F;
+    --accent-2-soft:#DCEEE0;
+    --shadow: 0 1px 2px rgba(18,38,42,0.06), 0 8px 24px rgba(18,38,42,0.08);
   }
   @media (prefers-color-scheme: dark){
     :root:not([data-theme="light"]){
-      --bg:#101A1D;
-      --surface:#17252A;
-      --surface-alt:#1E3034;
-      --border:#2C4247;
-      --text:#E7EEEE;
-      --text-muted:#93A8AA;
-      --accent:#E2895A;
-      --accent-strong:#F0A87A;
-      --accent-soft:#33241B;
-      --accent-contrast:#17120C;
+      --bg:#0D1B1D;
+      --surface:#14282A;
+      --surface-alt:#1B3436;
+      --border:#2A484A;
+      --text:#E3F1EF;
+      --text-muted:#8FADAA;
+      --accent:#5FB4D6;
+      --accent-strong:#86C9E3;
+      --accent-soft:#163540;
+      --accent-contrast:#08181C;
+      --accent-2:#6FC492;
+      --accent-2-soft:#163826;
       --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 28px rgba(0,0,0,0.35);
     }
   }
   :root[data-theme="dark"]{
-    --bg:#101A1D;
-    --surface:#17252A;
-    --surface-alt:#1E3034;
-    --border:#2C4247;
-    --text:#E7EEEE;
-    --text-muted:#93A8AA;
-    --accent:#E2895A;
-    --accent-strong:#F0A87A;
-    --accent-soft:#33241B;
-    --accent-contrast:#17120C;
+    --bg:#0D1B1D;
+    --surface:#14282A;
+    --surface-alt:#1B3436;
+    --border:#2A484A;
+    --text:#E3F1EF;
+    --text-muted:#8FADAA;
+    --accent:#5FB4D6;
+    --accent-strong:#86C9E3;
+    --accent-soft:#163540;
+    --accent-contrast:#08181C;
+    --accent-2:#6FC492;
+    --accent-2-soft:#163826;
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 8px 28px rgba(0,0,0,0.35);
   }
 
@@ -72,7 +78,8 @@
   }
 
   /* ---------- header ---------- */
-  header{ display:flex; flex-direction:column; gap:10px; }
+  header{ display:flex; flex-direction:column; gap:8px; }
+  .header-top{ display:flex; align-items:center; justify-content:space-between; gap:12px; }
   .eyebrow{
     font-size:11px;
     font-weight:600;
@@ -80,6 +87,24 @@
     text-transform:uppercase;
     color:var(--text-muted);
   }
+  .theme-toggle{
+    appearance:none;
+    border:none;
+    background:var(--surface-alt);
+    color:var(--text-muted);
+    width:32px;
+    height:32px;
+    border-radius:100px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+    transition:color 0.15s ease, background 0.15s ease;
+  }
+  .theme-toggle:hover{ color:var(--accent); background:var(--accent-soft); }
+  .theme-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .theme-toggle svg{ width:16px; height:16px; }
   .headline-row{
     display:flex;
     align-items:baseline;
@@ -285,6 +310,8 @@
     font-size:clamp(1.7rem,4.6vw,2.3rem);
     color:var(--text);
   }
+  .phase-name.is-inhale{ color:var(--accent); }
+  .phase-name.is-exhale{ color:var(--accent-2); }
   .countdown{
     display:inline-block;
     font-family:"IBM Plex Mono", monospace;
@@ -362,11 +389,31 @@
     font-variant-numeric:tabular-nums;
   }
 
+  .note-toggle{
+    appearance:none;
+    border:none;
+    background:none;
+    padding:0;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-family:"IBM Plex Sans", sans-serif;
+    font-size:0.8rem;
+    font-weight:600;
+    color:var(--text-muted);
+    cursor:pointer;
+    width:fit-content;
+  }
+  .note-toggle:hover{ color:var(--accent); }
+  .note-toggle:focus-visible{ outline:2px solid var(--accent); outline-offset:2px; }
+  .note-toggle .chev{ width:11px; height:11px; transition:transform 0.15s ease; }
+  .note-toggle[aria-expanded="true"] .chev{ transform:rotate(180deg); }
   .note{
     font-size:0.9rem;
     line-height:1.6;
     color:var(--text-muted);
     max-width:62ch;
+    margin-top:8px;
   }
   .note b{ color:var(--text); font-weight:600; }
 
@@ -377,12 +424,49 @@
   @media (max-width:420px){
     .custom-row{ grid-template-columns:repeat(2, minmax(0,1fr)); }
   }
+
+  @media (max-width:480px){
+    .page{ padding:10px 14px 12px; gap:9px; }
+    .eyebrow{ font-size:10px; }
+    h1{ font-size:1.4rem; }
+    .ratio-badge{ font-size:0.85rem; padding:4px 11px; }
+    header{ gap:5px; }
+    .headline-row{ gap:10px; }
+    .tab{ padding:7px 14px; font-size:0.85rem; }
+    .session-row{ margin-top:-2px; }
+    .custom-row{ gap:5px; }
+    .custom-field{ padding:6px 9px; }
+    .custom-field label{ font-size:9px; }
+    .custom-field input{ font-size:0.95rem; }
+    .console{ padding:9px 14px; gap:7px; }
+    .readout{ gap:8px; }
+    .phase-name{ font-size:1.2rem; }
+    .countdown{ font-size:2.1rem; }
+    .session-remaining{ font-size:1rem; }
+    .cycle-count{ font-size:0.68rem; }
+    .controls{ gap:8px; }
+    button.primary, button.ghost{ padding:7px 15px; font-size:0.8rem; }
+    .sound-hint{ display:none; }
+    .note-toggle{ font-size:0.75rem; }
+    .note{ font-size:0.8rem; line-height:1.45; margin-top:6px; }
+  }
 </style>
 </head>
 <body>
 <div class="page">
   <header>
-    <div class="eyebrow">Guided breathing</div>
+    <div class="header-top">
+      <span class="eyebrow">Guided breathing</span>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-label="Switch to light theme">
+        <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" hidden>
+          <circle cx="12" cy="12" r="4"></circle>
+          <path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path>
+        </svg>
+        <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" hidden>
+          <path d="M20 14.5A8.5 8.5 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"></path>
+        </svg>
+      </button>
+    </div>
     <div class="headline-row">
       <h1 id="headline">Box Breathing</h1>
       <span class="ratio-badge" id="ratioBadge">4·4·4·4</span>
@@ -460,7 +544,11 @@
     </div>
   </section>
 
-  <p class="note" id="note"></p>
+  <button class="note-toggle" id="noteToggle" type="button" aria-expanded="false" aria-controls="note">
+    <span>Why this pattern</span>
+    <svg class="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"></path></svg>
+  </button>
+  <p class="note" id="note" hidden></p>
 </div>
 
 <script>
@@ -516,8 +604,18 @@
     inInhale: document.getElementById("inInhale"),
     inHold1: document.getElementById("inHold1"),
     inExhale: document.getElementById("inExhale"),
-    inHold2: document.getElementById("inHold2")
+    inHold2: document.getElementById("inHold2"),
+    themeToggle: document.getElementById("themeToggle"),
+    iconSun: document.querySelector(".icon-sun"),
+    iconMoon: document.querySelector(".icon-moon"),
+    noteToggle: document.getElementById("noteToggle")
   };
+
+  function phaseClass(name){
+    if(name === "Inhale") return "is-inhale";
+    if(name === "Exhale") return "is-exhale";
+    return "";
+  }
 
   var X0 = 30, X1 = 610, YTOP = 40, YBOTTOM = 150;
 
@@ -781,7 +879,9 @@
     els.nowLine.setAttribute("x2", pos.x.toFixed(2));
     els.revealRect.setAttribute("width", Math.max(0, pos.x - X0).toFixed(2));
 
-    els.phaseName.textContent = state.phases[pos.phaseIndex][0];
+    var phName = state.phases[pos.phaseIndex][0];
+    els.phaseName.textContent = phName;
+    els.phaseName.className = "phase-name " + phaseClass(phName);
     els.countdown.textContent = pos.secondsLeft;
     els.cycleCount.textContent = "cycle " + (cycles + 1);
 
@@ -802,6 +902,7 @@
     els.nowLine.setAttribute("x1", pos.x); els.nowLine.setAttribute("x2", pos.x);
     els.revealRect.setAttribute("width", 0);
     els.phaseName.textContent = state.phases[0][0];
+    els.phaseName.className = "phase-name " + phaseClass(state.phases[0][0]);
     els.countdown.textContent = state.phases[0][1];
     els.cycleCount.textContent = "cycle 0";
     if(state.sessionMinutes > 0){
@@ -819,6 +920,7 @@
     setTimeout(stopDrone, 1500);
     els.startBtn.textContent = "Start";
     els.phaseName.textContent = "Complete";
+    els.phaseName.className = "phase-name";
     els.countdown.textContent = "–";
     els.sessionRemaining.textContent = "0:00 left";
   }
@@ -885,6 +987,8 @@
       els.ratioBadge.textContent = meta.ratio;
     }
     els.note.innerHTML = meta.note;
+    els.note.hidden = true;
+    els.noteToggle.setAttribute("aria-expanded", "false");
     drawStatic();
     reset();
     savePrefs();
@@ -927,6 +1031,45 @@
     }
     savePrefs();
   });
+
+  els.noteToggle.addEventListener("click", function(){
+    var expanded = els.noteToggle.getAttribute("aria-expanded") === "true";
+    els.noteToggle.setAttribute("aria-expanded", expanded ? "false" : "true");
+    els.note.hidden = expanded;
+  });
+
+  // ---- theme toggle ----
+  function getStoredTheme(){
+    try{ return localStorage.getItem("respiration-trace-theme"); }catch(e){ return null; }
+  }
+  function systemPrefersDark(){
+    return window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches;
+  }
+  function effectiveTheme(){
+    var stored = getStoredTheme();
+    if(stored === "light" || stored === "dark") return stored;
+    return systemPrefersDark() ? "dark" : "light";
+  }
+  function setSvgHidden(el, isHidden){
+    if(isHidden) el.setAttribute("hidden", ""); else el.removeAttribute("hidden");
+  }
+  function updateThemeToggleIcon(){
+    var isDark = effectiveTheme() === "dark";
+    setSvgHidden(els.iconSun, !isDark);
+    setSvgHidden(els.iconMoon, isDark);
+    els.themeToggle.setAttribute("aria-label", isDark ? "Switch to light theme" : "Switch to dark theme");
+  }
+  els.themeToggle.addEventListener("click", function(){
+    var next = effectiveTheme() === "dark" ? "light" : "dark";
+    document.documentElement.setAttribute("data-theme", next);
+    try{ localStorage.setItem("respiration-trace-theme", next); }catch(e){}
+    updateThemeToggleIcon();
+  });
+  var storedTheme = getStoredTheme();
+  if(storedTheme === "light" || storedTheme === "dark"){
+    document.documentElement.setAttribute("data-theme", storedTheme);
+  }
+  updateThemeToggleIcon();
 
   // init
   var prefs = loadPrefs();
