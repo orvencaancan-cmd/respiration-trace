@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Respiration Trace</title>
 <meta name="description" content="A breathing pacer that traces box, 4-7-8, and coherent breathing patterns as a live respiratory waveform.">
 <meta name="theme-color" content="#1B6E8C">
@@ -61,8 +61,10 @@
 
   *{ box-sizing:border-box; }
   [hidden]{ display:none !important; }
+  html{ background:var(--bg); }
   body{
     margin:0;
+    min-height:100dvh;
     background:var(--bg);
     color:var(--text);
     font-family:"IBM Plex Sans", ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -70,10 +72,14 @@
   }
   .page{
     max-width:720px;
+    min-height:100dvh;
     margin:0 auto;
-    padding: clamp(28px,6vw,56px) clamp(18px,5vw,28px) 64px;
+    padding: clamp(28px,6vw,56px) clamp(18px,5vw,28px) calc(64px + env(safe-area-inset-bottom));
+    padding-left: max(clamp(18px,5vw,28px), env(safe-area-inset-left));
+    padding-right: max(clamp(18px,5vw,28px), env(safe-area-inset-right));
     display:flex;
     flex-direction:column;
+    justify-content:center;
     gap:28px;
   }
 
@@ -625,7 +631,7 @@
     filterNode: null,
     gainNode: null
   };
-  var FREQ_LOW = 130, FREQ_HIGH = 164, DRONE_VOLUME = 0.22;
+  var FREQ_LOW = 130, FREQ_HIGH = 164, DRONE_VOLUME = 0.4;
 
   function loadPrefs(){
     try{
