@@ -420,28 +420,30 @@
   }
 
   @media (max-width:480px){
-    .page{ padding:10px 14px 12px; gap:9px; }
+    .page{ padding:13px 16px 16px; gap:12px; }
     .eyebrow{ font-size:10px; }
-    h1{ font-size:1.5rem; }
-    .ratio-badge{ font-size:0.85rem; padding:4px 11px; }
-    header{ gap:5px; }
-    .headline-row{ gap:10px; }
-    .tab{ padding:7px 13px; font-size:0.86rem; }
+    h1{ font-size:1.6rem; }
+    .ratio-badge{ font-size:0.92rem; padding:5px 12px; }
+    header{ gap:6px; }
+    .headline-row{ gap:11px; }
+    .tab{ padding:8px 15px; font-size:0.92rem; }
     .session-row{ margin-top:-2px; }
-    .custom-row{ padding:8px 0; }
-    .custom-field label{ font-size:8.5px; }
-    .custom-field input{ font-size:1.05rem; }
-    .console{ padding:10px 14px; gap:8px; }
-    .countdown-section{ gap:6px; }
-    .countdown-tile{ padding:12px 22px; border-radius:18px; }
-    .phase-name{ font-size:1.15rem; }
-    .countdown{ font-size:2.5rem; }
-    .session-remaining{ font-size:1.05rem; }
-    .controls{ gap:8px; }
-    button.primary, button.ghost{ padding:8px 16px; font-size:0.85rem; }
+    .tab-sm{ padding:6px 13px; font-size:0.78rem; }
+    .custom-row{ padding:10px 0; }
+    .custom-field label{ font-size:9px; }
+    .custom-field input{ font-size:1.15rem; }
+    .console{ padding:14px 17px; gap:11px; }
+    .countdown-section{ gap:8px; }
+    .countdown-tile{ padding:17px 30px; border-radius:21px; }
+    .phase-name{ font-size:1.3rem; }
+    .countdown{ font-size:2.9rem; }
+    .time-left-label{ font-size:0.74rem; }
+    .session-remaining{ font-size:1.18rem; }
+    .controls{ gap:9px; }
+    button.primary, button.ghost{ padding:9px 18px; font-size:0.9rem; }
     .sound-hint{ display:none; }
-    .best-for{ font-size:0.78rem; }
-    .best-for-label{ font-size:0.64rem; }
+    .best-for{ font-size:0.85rem; }
+    .best-for-label{ font-size:0.68rem; }
   }
 </style>
 </head>
@@ -504,13 +506,13 @@
 
   <section class="console">
     <div class="trace-wrap">
-      <svg id="trace" viewBox="0 0 640 110" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Respiration waveform for the current pattern">
+      <svg id="trace" viewBox="0 0 640 140" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Respiration waveform for the current pattern">
         <path class="base-path" id="basePath" d=""></path>
-        <clipPath id="revealClip"><rect id="revealRect" x="30" y="0" width="0" height="110"></rect></clipPath>
+        <clipPath id="revealClip"><rect id="revealRect" x="30" y="0" width="0" height="140"></rect></clipPath>
         <path class="fill-path" id="fillPath" d="" clip-path="url(#revealClip)"></path>
-        <line class="now-line" id="nowLine" x1="30" y1="4" x2="30" y2="106"></line>
-        <circle class="pulse-ring" id="pulseRing" r="5.5" cx="30" cy="96"></circle>
-        <circle class="playhead" id="playhead" r="5.5" cx="30" cy="96"></circle>
+        <line class="now-line" id="nowLine" x1="30" y1="6" x2="30" y2="134"></line>
+        <circle class="pulse-ring" id="pulseRing" r="6" cx="30" cy="122"></circle>
+        <circle class="playhead" id="playhead" r="6" cx="30" cy="122"></circle>
       </svg>
     </div>
 
@@ -602,7 +604,7 @@
     return "";
   }
 
-  var X0 = 30, X1 = 610, YTOP = 14, YBOTTOM = 96;
+  var X0 = 30, X1 = 610, YTOP = 17, YBOTTOM = 122;
 
   var state = {
     patternKey: "box",
@@ -623,7 +625,7 @@
     filterNode: null,
     gainNode: null
   };
-  var FREQ_LOW = 130, FREQ_HIGH = 164, DRONE_VOLUME = 0.1;
+  var FREQ_LOW = 130, FREQ_HIGH = 164, DRONE_VOLUME = 0.22;
 
   function loadPrefs(){
     try{
